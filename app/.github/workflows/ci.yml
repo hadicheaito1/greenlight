@@ -82,4 +82,4 @@ jobs:
           npm install -g jest
       
       - name: Run Jest
-        run: bundle exec jest
+        run: jest
