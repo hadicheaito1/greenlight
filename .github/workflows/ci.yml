@@ -27,7 +27,7 @@ jobs:
       postgres: greenlight-v3-test
         image: postgres:13.2-alpine
         env:
-          POSTGRES_DB: 
+          POSTGRES_DB: greenlight-v3-test
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
         ports:
