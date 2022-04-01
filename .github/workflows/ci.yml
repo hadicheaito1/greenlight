@@ -24,10 +24,10 @@ jobs:
     runs-on: ubuntu-18.04
 
     services:
-      postgres: postgres
+      postgres:
         image: postgres:13.2-alpine
         env:
-          POSTGRES_DB: greenlight-v3-test
+          POSTGRES_DB: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
         ports:
@@ -58,11 +58,10 @@ jobs:
         run: |
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
-
-      - name: Setup database
-        run:  |
-          bundler exec rails db:create RAILS_ENV=test
-          bundler exec rails db:migrate RAILS_ENV=test
+      # - name: Setup database
+      #   run:  |
+      #     bundler exec rails db:create
+      #     bundler exec rails db:migrate
 
       - name: Run Rubocop
         run: bundle exec rubocop --parallel
@@ -82,4 +81,4 @@ jobs:
           npm install -g jest
       
       - name: Run Jest
-        run: jest
+        run: bundle exec jest
