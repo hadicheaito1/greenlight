@@ -29,7 +29,7 @@ jobs:
         env:
           POSTGRES_DB: greenlight-v3-test
           POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
+          POSTGRES_USER: greenlight-v3-test
         ports:
           - 5432:5432
         # Health checks to wait until postgres is ready
@@ -60,8 +60,8 @@ jobs:
           bundle install --jobs 4 --retry 3
       - name: Setup database
         run:  |
-          bundler exec rails db:create
-          bundler exec rails db:migrate
+          bundler exec rails db:create RAILS_ENV=test
+          bundler exec rails db:migrate RAILS_ENV=test
 
       - name: Run Rubocop
         run: bundle exec rubocop --parallel
@@ -77,8 +77,7 @@ jobs:
         run: eslint . --ext .js,.jsx
 
       - name: Install Jest
-        run: |
-          npm install -g jest
+        run: npm install -g jest
       
       - name: Run Jest
-        run: bundle exec jest
+        run: jest
