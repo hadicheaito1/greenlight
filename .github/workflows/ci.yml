@@ -2,7 +2,7 @@ env:
   RUBY_VERSION: 3.1.0
   DB_ADAPTER: postgresql
   DB_HOST: localhost
-  DB_NAME: greenlight-v3-test
+  DB_NAME: postgres
   DB_USERNAME: postgres
   DB_PASSWORD: postgres
   DB_PORT: 5432
@@ -27,9 +27,9 @@ jobs:
       postgres:
         image: postgres:13.2-alpine
         env:
-          POSTGRES_DB: greenlight-v3-test
+          POSTGRES_DB: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: greenlight-v3-test
+          POSTGRES_USER: postgres
         ports:
           - 5432:5432
         # Health checks to wait until postgres is ready
@@ -58,10 +58,18 @@ jobs:
         run: |
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
-      - name: Setup database
-        run:  |
-          bundler exec rails db:create RAILS_ENV=test
-          bundler exec rails db:migrate RAILS_ENV=test
+
+      # - name: Setup database
+      #   run:  |
+      #     bundler exec rails db:create RAILS_ENV=test
+      #     bundler exec rails db:migrate RAILS_ENV=test
+
+
+      - name: Install Jest
+        run: npm install -g jest
+      
+      - name: Run Jest
+        run: jest
 
       - name: Run Rubocop
         run: bundle exec rubocop --parallel
@@ -75,9 +83,3 @@ jobs:
           npm install eslint-plugin-react@latest --save-dev
       - name: Run ESLint
         run: eslint . --ext .js,.jsx
-
-      - name: Install Jest
-        run: npm install -g jest
-      
-      - name: Run Jest
-        run: jest
