@@ -2,7 +2,7 @@ env:
   RUBY_VERSION: 3.1.0
   DB_ADAPTER: postgresql
   DB_HOST: localhost
-  DB_NAME: greenlight-v3-test
+  DB_NAME: postgres
   DB_USERNAME: postgres
   DB_PASSWORD: postgres
   DB_PORT: 5432
@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-18.04
 
     services:
-      postgres: greenlight-v3-test
+      postgres: postgres
         image: postgres:13.2-alpine
         env:
           POSTGRES_DB: greenlight-v3-test
